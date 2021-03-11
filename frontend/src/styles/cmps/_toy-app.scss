@@ -1,0 +1,44 @@
+.toy-app {
+    min-height: 90vh;
+    background-image: url('~@/assets/images/background1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.pagination {
+    align-self: center;
+    padding: 20px 0;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: $clr4;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: $clr4;
+}
+
+.home-container {
+    height: 90vh;
+    background-image: url('~@/assets/images/background1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    
+    button {
+        margin-top: 100px;
+        width: 300px;
+        height: 100px;
+        border-radius: 10px;
+        background-color: $clr4;
+        color: rgba(231, 231, 231, 0.829);
+        font-size: 30px;
+        border: none;
+        outline: none;
+    }
+
+    button:hover {
+        filter: brightness(105%);
+        border: 1px solid rgb(223, 223, 223);
+        cursor: pointer;
+    }
+}

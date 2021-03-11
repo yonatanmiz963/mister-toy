@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family:  $htmlfont;
+    line-height: 1.6;
+    color: $clr2;
+}
+
+
+
+h1, h2, h3, h4, h5, h6 {
+   margin: 0;
+}
+
+
+img {
+    width: 100%;
+}
+
+
+body {
+    margin: 0;
+    user-select: none;
+    outline: none;
+}
+
+.router-link-exact-active {
+    filter: brightness(120%);
+}

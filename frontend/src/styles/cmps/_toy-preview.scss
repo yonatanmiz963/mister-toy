@@ -1,0 +1,25 @@
+.toy-preview {
+    border-radius: 5px;
+    margin: 10px;
+    backdrop-filter: blur(5px);
+    background: rgba(255, 255, 255, 0.35);
+    justify-content: space-evenly;
+
+    .toy-name {
+        text-transform: capitalize;
+    }
+
+    h3 {
+        color: #303133;
+    }
+
+
+    .preview-btns>* {
+        background-color: $clr4;
+        border: none;
+    }
+
+    .preview-btns>*:hover {
+        filter: brightness(105%);
+    }
+}

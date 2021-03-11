@@ -1,0 +1,35 @@
+.toy-details {
+    min-height: 90vh;
+    background-image: url('~@/assets/images/background1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    justify-content: space-around;
+    align-items: center;
+
+    .details-container > * {
+        margin-bottom: 20px;
+    }
+
+    .back-btn {
+        width: 100px;
+        height: 33px;
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 14px;
+        align-self: center;
+        background-color: $clr4;
+        border: none;
+        color: aliceblue;
+        outline: none;
+    }
+
+    .back-btn:hover {
+        filter: brightness(105%);
+        cursor: pointer;
+        border: 1px solid white;
+    }
+
+}
