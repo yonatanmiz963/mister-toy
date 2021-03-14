@@ -1,4 +1,5 @@
 import { toyService } from '../services/toy.service.js'
+import { userService } from '../services/user.service.js'
 
 export const toyStore = {
     state: {
@@ -6,11 +7,11 @@ export const toyStore = {
         filterBy: {
             searchStr: '',
             status: 'All',
-            type: 'All',
+            type: undefined,
             sortBy: 'Name'
         },
         pageSize: 4,
-        pageIdx: 0
+        pageIdx: 0,
     },
     getters: {
         toysForDisplay(state) {
@@ -19,12 +20,6 @@ export const toyStore = {
             const toys = state.toys.slice(startIdx, startIdx + state.pageSize)
             return toys
         },
-        // toysForChart(state) {
-        //     return state.toys
-        // },
-        // avgs(state) {
-        //     return state.avgs
-        // },
         sumToysByType(state) {
             if (!state.toys) return
             var typesSum = state.toys.reduce((acc, toy) => {
@@ -36,16 +31,16 @@ export const toyStore = {
         },
         getToysAvgPrice(state) {
             if (!state.toys) return
-                var toysPriceAvgs = state.toys.reduce(
-                    (acc, toy) => {
-                        if (!acc[toy.type]) acc[toy.type] = [];
-                        acc[toy.type].push(toy.price);
-                        return acc;
-                    },
-                    {}
-                );
-                for (const type in toysPriceAvgs) {
-                    let typePrices = toysPriceAvgs[type];
+            var toysPriceAvgs = state.toys.reduce(
+                (acc, toy) => {
+                    if (!acc[toy.type]) acc[toy.type] = [];
+                    acc[toy.type].push(toy.price);
+                    return acc;
+                },
+                {}
+            );
+            for (const type in toysPriceAvgs) {
+                let typePrices = toysPriceAvgs[type];
                 var pricesSum = typePrices.reduce((acc, price) => {
                     return acc + price;
                 }, 0);
@@ -77,12 +72,13 @@ export const toyStore = {
         setPage(state, { pageIdx }) {
             console.log('pageIdx:', pageIdx)
             state.pageIdx = pageIdx
-        }
+        },
     },
     actions: {
         loadToys(context) {
             return toyService.query(context.state.filterBy)
                 .then(toys => {
+                    console.log('toys:', toys)
                     context.commit({ type: 'setToys', toys })
                 })
                 .catch(err => {
@@ -90,15 +86,15 @@ export const toyStore = {
                     throw new Error('Cannot load Toys');
                 })
         },
-        removeToy(context, payload) {
-            return toyService.remove(payload.toyId)
-                .then(() => {
-                    context.commit(payload)
-                })
-                .catch(err => {
-                    console.log('Store: Cannot remove toy', err);
-                    throw new Error('Cannot remove toy');
-                })
+        async removeToy(context, payload) {
+            try {
+                await toyService.remove(payload.toyId)
+                context.commit(payload)
+                return payload
+            } catch (err) {
+                console.log('Store: Cannot remove toy', err);
+                throw new Error('Cannot remove toy');
+            }
         },
         setToy(context, { savedToy }) {
             return toyService.save(savedToy)
@@ -114,5 +110,19 @@ export const toyStore = {
         getToy(context, { toyId }) {
             return toyService.getById(toyId)
         },
+        async login(context, { userToLogin }) {
+            try {
+                const loggedInUser = await userService.checkLogin(userToLogin)
+                console.log('loggedInUser:', loggedInUser)
+                context.commit({ type: 'setUser', user: loggedInUser })
+                return loggedInUser
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        async addReview(context, { toyId, review }) {
+            const reviewdToy = await toyService.addReview(review, toyId)
+            return reviewdToy
+        }
     },
 }

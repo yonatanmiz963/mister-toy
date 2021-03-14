@@ -1,6 +1,8 @@
 .dashboard {
     min-height: 90vh;
-    background-color: #ecd1b1d5;
+    background-image: url('~@/assets/images/background1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
     justify-content: space-evenly;
     align-items: center;
 }

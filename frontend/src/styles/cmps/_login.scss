@@ -1,0 +1,36 @@
+.login {
+    background-image: url('~@/assets/images/background1.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    height: 90vh;
+    position: relative;
+
+    .welcome-user {
+        margin-top: 50px;
+    }
+
+
+    form {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    form > * {
+        margin-bottom: 10px;
+    }
+
+    .back-btn {
+        // margin-top: 100px;
+        position: absolute;
+        // margin-left: 50px;
+        left: 50px;
+        bottom: 50px;
+        
+    }
+
+
+
+
+}

@@ -10,6 +10,8 @@
     .edit-form {
         height: 400px;
         justify-content: space-around;
+        @include glass-box;
+        padding: 20px;
     }
     .edit-form input {
         width: 300px;

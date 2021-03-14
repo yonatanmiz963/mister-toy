@@ -1,11 +1,15 @@
 .toy-type-chart {
     width: 500px;
     height: 500px;
+    @include glass-box;
+    padding: 20px;
 }
 
 .inv-by-type-chart {
     width: 500px;
     height: 500px;
+    @include glass-box;
+    padding: 20px;
 }
 
 

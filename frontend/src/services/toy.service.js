@@ -2,11 +2,16 @@
 // import { storageService } from './async-storage.service.js'
 // import { utilService } from './util.service.js'
 // const KEY = 'toysDB';
-const axios = require('axios')
+const Axios = require('axios')
+const BASE_URL = process.env.NODE_ENV === 'production'
+    ? '/api/'
+    : '//localhost:3030/api/'
 
-const TOY_URL = (process.env.NODE_ENV !== 'development')
-? '/api/toy'
-: '//localhost:3000/api/toy';
+
+var axios = Axios.create({
+    withCredentials: true
+})
+import { httpService } from './http.service.js'
 
 
 export const toyService = {
@@ -15,37 +20,32 @@ export const toyService = {
     remove,
     save,
     getEmptytoy,
+    addReview
 }
 
+function addReview(review, toyId) {
+    return httpService.post(`toy/${toyId}/review`, review)
+}
 
 function query(filterBy) {
-    return axios.get(TOY_URL, { params: filterBy })
-    .then(res => res.data)
-    // return storageService.query(KEY)
-    //     .then(toys => {
-    //         if (!toys || !toys.length) return _createtoys()
-    //         return toys
-    //     })
+    return httpService.get('toy', filterBy)
+    // return Axios.get(`${BASE_URL}toy/filterBy=${filterBy}`)
 }
 
 function getById(id) {
-    return axios.get(TOY_URL + `/` + id).then(res => res.data)
-    // return storageService.get(KEY, id)
+    return httpService.get(`toy/${id}`)
 }
 
 function remove(id) {
-    return axios.delete(TOY_URL + `/` + id).then(res => res.data)
-    // return storageService.remove(KEY, id)
+    return httpService.delete(`toy/${id}`)
 }
 
 function save(toy) {
     if (toy._id) {
-        return axios.put(TOY_URL + `/` + toy._id, toy).then(res => res.data)
+        return httpService.put(`toy/${toy._id}`, toy)
     } else {
-        return axios.post(TOY_URL, toy).then(res => res.data)
+        return httpService.post(`toy`, toy)
     }
-    // const savedtoy = (toy._id) ? storageService.put(KEY, toy) : storageService.post(KEY, toy)
-    // return savedtoy;
 }
 
 function getEmptytoy() {

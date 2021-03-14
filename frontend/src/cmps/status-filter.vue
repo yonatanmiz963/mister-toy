@@ -16,15 +16,15 @@ export default {
     return {
       options: [
         {
-          value: "All",
+          value: undefined,
           label: "All",
         },
         {
-          value: "In stock",
+          value: true,
           label: "In stock",
         },
         {
-          value: "Out of stock",
+          value: false,
           label: "Out of stock",
         },
       ],

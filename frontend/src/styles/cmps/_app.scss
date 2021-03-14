@@ -12,6 +12,7 @@ header {
 .header-container {
     margin: 0 auto;
     height: 100%;
+    padding: 0 10px;
 }
 
 footer {
@@ -22,13 +23,26 @@ footer {
 
 nav {
     color: $clr4;
+
+    button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        font-family: 'quick-sand';
+        font-size: inherit;
+    }
+
 }
 
-nav > * {
+nav>* {
     color: $clr4;
     text-decoration: none;
+
+   
+
 }
 
-nav *:hover {
+nav>*:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
