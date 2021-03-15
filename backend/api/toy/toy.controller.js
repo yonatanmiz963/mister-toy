@@ -1,6 +1,6 @@
 const express = require('express')
 const toyService = require('./toy.service')
-
+const logger = require('../../services/logger.service')
 
 const router = express.Router()
 
@@ -11,16 +11,18 @@ module.exports = {
     deleteToy,
     updateToy,
     addToy,
-    addReview
+    addMsg
+    
 }
 
-async function addReview(req, res) {
+async function addMsg(req, res) {
     try {
-        const toy =  await toyService.addReview(req.params.toyId, req.body)
+        const toy =  await toyService.addMsg(req.params.toyId, req.body)
+        console.log('toy in controller:', toy)
         res.send(toy)
     } catch(err) {
-        logger.error('Failed to add review', err)
-        res.status(500).send({ err: 'Failed to add review' }) 
+        logger.error('Failed to add msg', err)
+        res.status(500).send({ err: 'Failed to add msg' }) 
     }
 }
 

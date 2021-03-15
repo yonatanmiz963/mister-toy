@@ -20,16 +20,19 @@ export const toyService = {
     remove,
     save,
     getEmptytoy,
-    addReview
+    addMsg
 }
 
-function addReview(review, toyId) {
-    return httpService.post(`toy/${toyId}/review`, review)
+function addMsg(toyId, msg) {
+    return httpService.post(`toy/${toyId}/msg`, msg)
 }
 
+// set query params for all filters?
 function query(filterBy) {
-    return httpService.get('toy', filterBy)
+    return httpService.get('toy', {params: filterBy})
+    // return httpService.get('toy', filterBy)
     // return Axios.get(`${BASE_URL}toy/filterBy=${filterBy}`)
+    // `${BASE_URL}toy?name=${filterBy.name}&price=${filterBy.price}` // req.query
 }
 
 function getById(id) {

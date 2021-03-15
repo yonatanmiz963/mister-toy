@@ -12,8 +12,12 @@ export const toyStore = {
         },
         pageSize: 4,
         pageIdx: 0,
+        isChatOpen: false
     },
     getters: {
+        isChatOpen(state) {
+            return state.isChatOpen
+        },
         toysForDisplay(state) {
             if (!state.toys) return
             const startIdx = state.pageIdx * state.pageSize;
@@ -50,6 +54,12 @@ export const toyStore = {
         },
     },
     mutations: {
+        openChat(state) {
+            state.isChatOpen = true
+        },
+        closeChat(state) {
+            state.isChatOpen = false
+        },
         setToys(state, { toys }) {
             state.toys = toys
         },
@@ -110,19 +120,13 @@ export const toyStore = {
         getToy(context, { toyId }) {
             return toyService.getById(toyId)
         },
-        async login(context, { userToLogin }) {
+        async saveMsg(context, { toyId, msg }) {
             try {
-                const loggedInUser = await userService.checkLogin(userToLogin)
-                console.log('loggedInUser:', loggedInUser)
-                context.commit({ type: 'setUser', user: loggedInUser })
-                return loggedInUser
+                const toy = await toyService.addMsg(toyId, msg)
+                console.log('toy:', toy)
             } catch (err) {
-                console.log(err);
+                console.log('err:', err)
             }
         },
-        async addReview(context, { toyId, review }) {
-            const reviewdToy = await toyService.addReview(review, toyId)
-            return reviewdToy
-        }
-    },
+    }
 }

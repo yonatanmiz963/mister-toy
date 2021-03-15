@@ -11,6 +11,31 @@
         margin-bottom: 20px;
     }
 
+    .open-chat-btn {
+        position: absolute;
+        width: 100px;
+        height: 33px;
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        font-size: 14px;
+        align-self: center;
+        background-color: $clr4;
+        border: none;
+        color: aliceblue;
+        outline: none;
+        right: 50px;
+        bottom: 50px;
+    }
+
+    .open-chat-btn:hover {
+        filter: brightness(105%);
+        cursor: pointer;
+        border: 1px solid white;
+    }
+
     .back-btn {
         position: absolute;
         width: 100px;

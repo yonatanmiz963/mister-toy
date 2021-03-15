@@ -6,6 +6,8 @@ import toyHome from '../views/toy-home.vue'
 import toyDetails from '../views/toy-details.vue'
 import dashboard from '../views/dashboard.vue'
 import userLogin from '../views/user-login.vue'
+import reviewPage from '../views/review-page.vue'
+import userDetails from '../views/user-details.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +21,11 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: dashboard
+  },
+  {
+    path: '/review',
+    name: 'review',
+    component: reviewPage
   },
   {
     path: '/toy',
@@ -39,6 +46,11 @@ const routes = [
     path: '/login',
     name: 'userLogin',
     component: userLogin
+  },
+  {
+    path: '/user/:userId',
+    name: 'userDetails',
+    component: userDetails
   },
 ]
 

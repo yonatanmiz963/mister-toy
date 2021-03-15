@@ -11,6 +11,7 @@
           <router-link v-if="admin" to="/toy/edit">Add Toy |</router-link> 
           <router-link to="/toy"> Toys |</router-link>
           <router-link to="/dashboard"> Dashboard |</router-link> 
+          <router-link to="/review"> Reviews |</router-link> 
           <router-link to="/"> Home</router-link>
         </nav>
       </div>

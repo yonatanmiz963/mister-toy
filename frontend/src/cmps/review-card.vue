@@ -1,7 +1,8 @@
 <template>
   <div class="review-card align-center">
     <h4 class="review-time">{{ reviewTime }}</h4>
-    <h3>{{ review.txt }}</h3>
+    <h3>{{ review.content }}</h3>
+    <h4> by: {{ owner }}</h4>
   </div>
 </template>
 
@@ -12,6 +13,9 @@ export default {
     computed: {
         reviewTime() {
             return moment(this.review.createdAt).fromNow()
+        },
+        owner() {
+          return this.review.user.nickname
         }
     }
 };

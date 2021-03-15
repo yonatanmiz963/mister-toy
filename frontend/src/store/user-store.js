@@ -26,12 +26,11 @@ export const userStore = {
         async login(context, { userToLogin }) {
             try {
                 const loggedInUser = await userService.checkLogin(userToLogin)
-                console.log('loggedInUser:', loggedInUser)
                 context.commit({ type: 'setUser', user: loggedInUser })
                 return loggedInUser
             } catch (err) {
                 console.log(err);
-                throw err
+                throw new Error('Cannot login');
             }
         },
         async logout(context) {
@@ -50,5 +49,14 @@ export const userStore = {
                 console.log(err);
             }
         },
-    },
+        async getUser(context, { userId }) {
+            try {
+                const user = await userService.getUser(userId)
+                return user
+            } catch (err) {
+                console.log('err:', err)
+                throw err
+            }
+        },
+    }
 }

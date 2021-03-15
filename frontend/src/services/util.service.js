@@ -28,5 +28,6 @@ function debounce(callback, wait) {
 
 export const utilService = {
     makeId,
-    getRandomInt
+    getRandomInt,
+    debounce
 }

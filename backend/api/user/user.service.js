@@ -1,6 +1,6 @@
 
 const dbService = require('../../services/db.service')
-// const logger = require('../../services/logger.service')
+const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
@@ -51,6 +51,7 @@ async function getById(userId) {
         throw err
     }
 }
+
 async function getByUsername(username) {
     try {
         const collection = await dbService.getCollection('user')

@@ -1,8 +1,8 @@
 
 const dbService = require('../../services/db.service')
-// const reviewService = require('../review/review.service')
 const logger = require('../../services/logger.service')
 const ObjectId = require('mongodb').ObjectId
+// const reviewService = require('../review/review.service')
 
 module.exports = {
     query,
@@ -11,20 +11,21 @@ module.exports = {
     remove,
     update,
     add,
-    addReview
+    addMsg
+    
 }
 
 
-async function addReview(toyId, review) {
+async function addMsg(toyId, msg) {
     try {
-        review.createdAt = Date.now()
-        review._id = makeId()
-        var toy = await getById(toyId)
-        toy.reviews.unshift(review)
-        var reviewedToy = await update(toy)
-        return reviewedToy
+        const toy = await getById(toyId)
+        msg.id = makeId()
+        toy.msgs.push(msg)
+        const collection = await dbService.getCollection('toy')
+        await collection.updateOne({ '_id': toy._id }, { $set: toy })
+        return toy;
     } catch (err) {
-        logger.error('cannot add review', err)
+        logger.error(`cannot update toy ${toy._id}`, err)
         throw err
     }
 }
@@ -52,6 +53,7 @@ async function getById(toyId) {
         throw err
     }
 }
+
 async function getBytoyname(toyname) {
     try {
         const collection = await dbService.getCollection('toy')
@@ -75,7 +77,7 @@ async function remove(toyId) {
 
 async function update(toy) {
     try {
-        const toyToSave = { _id: ObjectId(toy._id), name: toy.name, price: toy.price, type: toy.type, createdAt: toy.createdAt, inStock: toy.inStock, reviews: toy.reviews }
+        const toyToSave = { _id: ObjectId(toy._id), name: toy.name, price: toy.price, type: toy.type, inStock: toy.inStock, reviews: toy.reviews }
         const collection = await dbService.getCollection('toy')
         await collection.updateOne({ '_id': toyToSave._id }, { $set: toyToSave })
         return toyToSave;
@@ -87,7 +89,7 @@ async function update(toy) {
 
 async function add(toy) {
     try {
-        const toyToAdd = { name: toy.name, price: toy.price, type: toy.type, createdAt: toy.createdAt, inStock: toy.inStock, reviews: [] }
+        const toyToAdd = { msgs: [], name: toy.name, price: toy.price, type: toy.type, createdAt: toy.createdAt, inStock: toy.inStock, reviews: [] }
         const collection = await dbService.getCollection('toy')
         await collection.insertOne(toyToAdd)
         return toyToAdd

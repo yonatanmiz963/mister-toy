@@ -17,13 +17,16 @@
 @import './cmps/_dashboard';
 @import './cmps/_app';
 @import './cmps/_toy-edit';
-@import './cmps/_toy-details.scss';
+@import './cmps/_review';
+@import './cmps/_toy-details';
 @import './cmps/_login.scss';
+@import './cmps/user-details';
 
 /* COMPONENTS */
 @import './cmps/_toy-filter';
 @import './cmps/_toy-list';
 @import './cmps/_toy-preview';
 @import './cmps/_chart';
+@import './cmps/_chat';
 
 

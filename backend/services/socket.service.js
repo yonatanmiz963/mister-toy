@@ -15,6 +15,7 @@ function connectSockets(http, session) {
         autoSave: true
     }));
     gIo.on('connection', socket => {
+        console.log('Someone connected');
         // console.log('socket.handshake', socket.handshake)
         gSocketBySessionIdMap[socket.handshake.sessionID] = socket
         // TODO: emitToUser feature - need to tested for CaJan21
@@ -35,12 +36,20 @@ function connectSockets(http, session) {
             socket.myTopic = topic
         })
         socket.on('chat newMsg', msg => {
+            console.log('msg:', msg)
             // emits to all sockets:
             // gIo.emit('chat addMsg', msg)
             // emits only to sockets in the same room
             gIo.to(socket.myTopic).emit('chat addMsg', msg)
         })
-
+        socket.on('chat typingUser', user => {
+            console.log('msg:', user)
+            // emits to all sockets:
+            // gIo.emit('chat addMsg', msg)
+            // emits only to sockets in the same room
+            // gIo.to(socket.myTopic).emit('chat getTypingUser', user)
+            socket.broadcast.emit('chat getTypingUser', user)
+        })
     })
 }
 

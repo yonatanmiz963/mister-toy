@@ -8,49 +8,60 @@
       <h3>Created: {{ createdAt }}</h3>
     </div>
 
-    <div v-if="toyReviews" class="reviews-container">
+    <div class="reviews-container">
       <div v-if="loggedUser" class="add-review">
         <h1>Add review</h1>
         <form @submit.prevent="addReview">
           <el-input
             type="text"
             placeholder="Your review.."
-            v-model="newReview.txt"
+            v-model="newReview.content"
           ></el-input>
         </form>
       </div>
 
-      <div v-if="toyReviews" class="reviews-list">
+      <div v-if="reviews" class="reviews-list">
         <h1>Reviews</h1>
         <review-card
           class="review-card flex"
-          v-for="review in toy.reviews"
+          v-for="review in reviews"
           :key="review._id"
           :review="review"
         ></review-card>
       </div>
     </div>
-
+    <chat @saveMsg="saveMsg" :toyId="toy._id" @closeChat="isChatOpen=false" v-if="isChatOpen && loggedUser" />
     <router-link class="back-btn" to="/toy">Back</router-link>
+    <button @click="toggleChat" class="open-chat-btn">Chat</button>
   </section>
 </template>
 
 
 <script>
 import moment from "moment";
-import ReviewCard from "../cmps/review-card.vue";
+import reviewCard from "../cmps/review-card.vue";
+import chat from "../cmps/chat.vue";
 
 export default {
   data() {
     return {
+      reviews: null,
       toy: null,
       newReview: {
-        txt: "",
+        content: '',
         createdAt: null,
+        toyId: this.$route.params.toyId,
       },
+      isChatOpen: false
     };
   },
   methods: {
+    saveMsg(msg) {
+      this.$store.dispatch({ type: 'saveMsg', toyId: this.toy._id, msg})
+    },
+    toggleChat() {
+      this.isChatOpen = !this.isChatOpen
+    },
     getToy(toyId) {
       this.$store
         .dispatch({ type: "getToy", toyId })
@@ -61,17 +72,28 @@ export default {
         const reviewedToy = await this.$store.dispatch({
           type: "addReview",
           review: this.newReview,
-          toyId: this.toy._id,
         });
-        this.newReview.txt = "";
-        this.toy = reviewedToy;
-         this.$message({
+        this.newReview.content = "";
+        this.loadReviews();
+        this.$message({
           message: "Review was added successfully.",
           type: "success",
         });
       } catch (err) {
         console.log(err);
         this.$message.error("Couldn't add review, please try again.");
+      }
+    },
+    async loadReviews() {
+      try {
+        const toyId = this.$route.params.toyId;
+        const loadedReviews = await this.$store.dispatch({
+          type: "loadReviews",
+          filterBy: { toyId, userId: "", searchStr: "" },
+        });
+        this.reviews = loadedReviews;
+      } catch (err) {
+        console.log("err:", err);
       }
     },
   },
@@ -88,9 +110,6 @@ export default {
     inStock() {
       return this.toy.inStock ? "In stock" : "Out of stock";
     },
-    toyReviews() {
-      if (this.toy.reviews.length) return this.toy.reviews;
-    },
     loggedUser() {
       return this.$store.getters.loggedUser;
     },
@@ -98,9 +117,11 @@ export default {
   created() {
     const toyId = this.$route.params.toyId;
     this.getToy(toyId);
+    this.loadReviews();
   },
   components: {
-      ReviewCard
-  }
+    reviewCard,
+    chat,
+  },
 };
 </script>

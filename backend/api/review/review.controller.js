@@ -4,7 +4,9 @@ const reviewService = require('./review.service')
 
 async function getReviews(req, res) {
     try {
+        // console.log('controller query: ', req.query);
         const reviews = await reviewService.query(req.query)
+        // console.log('reviews:', reviews)
         res.send(reviews)
     } catch (err) {
         logger.error('Cannot get reviews', err)
@@ -28,8 +30,6 @@ async function addReview(req, res) {
         var review = req.body
         review.byUserId = req.session.user._id
         review = await reviewService.add(review)
-        review.byUser = req.session.user
-        review.aboutUser = await userService.getById(review.aboutUserId)
         res.send(review)
 
     } catch (err) {
